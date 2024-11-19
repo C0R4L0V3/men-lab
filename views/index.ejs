@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <% if (user) { %>
+        <h1> Welcome back, <%= user.username %>! </h1>
+        <h3>You are currently signed in as <%= user.username%>></h3>
+        <p>
+            <a href="/auth/sign-out">Sign Out</a>
+        </p>
+    <% } else { %>  
+        <h1>Welcome to "placeholder Name"</h1>
+        <h3>You are currently signed in as Guest</h3>
+        <p>
+            <a href="/auth/sign-up">Sign Up</a>
+            <a href="/auth/sign-in">Login</a>
+        </p>
+    <% } %>
+    <p>
+        <a href="/vip-lounge"> Get into the VIP Users Only loung!</a>
+    </p>
+</body>
+</html>
