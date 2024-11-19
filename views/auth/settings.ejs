@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+</head>
+<body>
+
+    <h1> Account Settings</h1>
+
+    <a href="../">Home</a>
+    <a href="/auth/sign-out">Sign Out</a>
+
+        <form action="/auth/<%= user._id %>?_method=PUT" method="POST">
+            <label for="username">Change Username:</label>
+            <input type="text" name="username" id="username"/>
+
+            <label for="name">Change Name:</label>
+            <input type="text" name="name" id="name"/>
+
+            <label for="password">Change Password:</label>
+            <input type="text" name="password" id="password"/>
+            
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" name="confirmPassword" id="confirmPassword">
+
+            <label for ></label>
+
+            <button type="submit">Update</button>
+        </form>
+
+    
+</body>
+</html>
+

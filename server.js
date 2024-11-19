@@ -74,7 +74,7 @@ app.use(
 app.use(passUserToView);
 
 
-//instructs expree to use the authcontroller for handling requests that mathc the /auth url pattern
+//instructs express to use the authcontroller for handling requests that match the /auth url pattern
 app.use('/auth', authController)
 
 
@@ -97,6 +97,12 @@ app.get('/vip-lounge', isSignedIn, (req, res) => {
     //     res.send("Sorry, no guests allowed.")
     // }
 })
+
+app.get('/MyStuff', (req, res) => {
+    res.send('My Stuff')
+})
+
+
 
 
 

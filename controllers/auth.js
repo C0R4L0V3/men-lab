@@ -79,7 +79,9 @@ router.post('/sign-in', async (req,res) => {
                 return res.send ("Incorrect Password")
             }
 
+        //
         req.session.user = {
+            _id: userInDatabase._id,
             username: userInDatabase.username,
         };
     
@@ -110,12 +112,54 @@ router.get('/sign-out', (req, res) => {
     });
 });
 
+//====================================================================================
+
+//routes to user settings 
+router.get('auth/:userId/settings', async (req, res) => {
+
+    try {  
+        const userId = req.params.userId
+        const user = await User.findById(req.params.userId);
+
+        if (!user) {
+            return res.status(404).send('User not found')
+        }
+
+        res.render('auth/settings.ejs', { userId: userId });
+    } catch (error) {
+        console.error(err);
+        res.status(500).send('Internal Server Error')
+    }
+});
 
 
+router.put('/auth/:userId', async (req, res) => {
 
+    try {
+        const userInDatabase = await User.findOne({username: req.params.username})
+            if (userInDatabase){
+                return res.send('Usernmae Taken')
+            }
+            if (req.body.password !== req.body.confirmPassword){
+                return res.send('Passwords do not match')
+            }
+    } catch (error){
+        console.log(error);
+        
+    }
 
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+    req.body.password = hashedPassword;
 
+   await User.findByIdAndUpdate(req.params.userId, req.body)
 
+    // res.send('Account Settings updated')
+    res.redirect(`/`)
 
+    // auth/${re.params.userId}
+
+})
+
+// /:userID
 
 module.exports = router;
