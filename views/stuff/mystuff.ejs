@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Stuff</title>
+</head>
+<body>
+    <h1><%= user.username %> Stuff</h1>
+    <nav>
+        <%- include('../partials/nav.ejs') %>
+        <a href="../">Home</a>
+    </nav>
+        <h1>My Stuff</h1>
+
+        <br>
+    
+    <!-- checks if the array has a length is true -->
+        <% if (myStuff.length) {%>
+        <ul>
+        <% myStuff.forEach((item) =>{ %>
+            <li> 
+                <a href="/mystuff/<%= item._id %>">
+                    <%= item.name %>
+                </a>
+            </li>
+        <% }) %>
+        <% } else {%>
+            <p> You have no stuff!</p>
+        <% } %>
+   
+    <br>
+
+
+    </ul>
+
+    <h2> Add New Stuff</h2>
+    <form action="/mystuff" method="POST">
+
+        <label for="name">Name:</label>
+        <input type="text" name="name"/>
+
+        <label for="value">Value:</label>
+        <input type="number" name="value"/>
+
+        <label for="isOwned"> Is Owned:</label>
+        <input type="checkbox" name="isOwned" />
+
+        <button type="submet">Add to My  Stuff</button>
+
+    </form>
+ 
+</body>
+</html>

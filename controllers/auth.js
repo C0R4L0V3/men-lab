@@ -40,7 +40,8 @@ const user = await User.create(req.body);
 
 //logins user after sign up
 req.session.user = {
-    username: userInDatabase.username,
+    _id: user._id,
+    username: user.username,
 };
 
 req.session.save(() => {
@@ -115,8 +116,10 @@ router.get('/sign-out', (req, res) => {
 //====================================================================================
 
 //routes to user settings 
-router.get('auth/:userId/settings', async (req, res) => {
+router.get('/:userId/settings', async (req, res) => {
 
+    console.log('HIT');
+    
     try {  
         const userId = req.params.userId
         const user = await User.findById(req.params.userId);
@@ -133,7 +136,7 @@ router.get('auth/:userId/settings', async (req, res) => {
 });
 
 
-router.put('/auth/:userId', async (req, res) => {
+router.put('/:userId', async (req, res) => {
 
     try {
         const userInDatabase = await User.findOne({username: req.params.username})

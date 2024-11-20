@@ -1,18 +1,18 @@
 
 
 <% if (user) { %>
-    <%= JSON.stringify(user) %>
+  
     <br>
     <br>
-<nav> 
+
     <a href="/auth/sign-out">Sign Out</a>
     <a href="/auth/<%= user._id %>/settings">Account settings</a>
-    <a href="/MyStuff">My Stuff</a>
-</nav>
+    <a href="/mystuff">My Stuff</a>
+
 <% } else { %>  
-    <nav>
+    
         <a href="/auth/sign-up">Sign Up</a>
         <a href="/auth/sign-in">Login</a>
-    </nav>
+   
 <% } %>
 

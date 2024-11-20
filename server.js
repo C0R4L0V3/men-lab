@@ -26,6 +26,8 @@ mongoose.connection.on('connected', () =>{
     console.log(`Connected to MongoDB' ${mongoose.connection.name}`);
 });
 
+const Stuff = require('./models/stuff.js');
+
 //== Middleware stack ==
 //middleware to parse URL-encoded date from forms
 app.use(express.urlencoded({ extended: false}));
@@ -78,7 +80,7 @@ app.use(passUserToView);
 app.use('/auth', authController)
 
 
-
+//home page
 app.get('/', (req,res) => {
     console.log('test');
     
@@ -98,11 +100,71 @@ app.get('/vip-lounge', isSignedIn, (req, res) => {
     // }
 })
 
-app.get('/MyStuff', (req, res) => {
-    res.send('My Stuff')
+app.get('/mystuff', async (req, res) => {
+    // res.send('My Stuff')
+    const allStuff = await Stuff.find({owner: req.session.user._id});
+        res.render('stuff/mystuff.ejs', {
+            myStuff: allStuff
+        });
+
+})
+
+app.post('/mystuff', async (req, res) => {
+
+    //checks checkbox and converst value to true or false
+    if(req.body.isOwned === 'on'){
+        req.body.isOwned = true
+    }
+    else {
+        req.body.isOwned = false
+    }
+    console.log(req.session.user);
+    
+
+    //his links and ties the created item to the users account
+    req.body.owner = req.session.user._id
+
+    await Stuff.create(req.body);
+    res.redirect('/mystuff');
+
 })
 
 
+//route Item show page
+
+app.get('/mystuff/:itemId', async (req, res) => {
+    const item = await Stuff.findById(req.params.itemId)
+        // res.send( `${item}`)
+
+    res.render('stuff/show.ejs', {
+        item: item,
+    })
+})
+
+
+//Item Update
+app.put('/mystuff/:itemId', async (req, res) => {
+
+    //checks checkbox and converst value to true or false
+    if(req.body.isOwned === 'on'){
+        req.body.isOwned = true
+    }
+    else {
+        req.body.isOwned = false
+    }
+    
+    await Stuff.findByIdAndUpdate(req.params.itemId, req.body);
+    res.redirect(`/mystuff/${req.params.itemId}`);
+
+})
+
+//delete an object
+
+app.delete('/mystuff/:itemId', async (req, res) => {
+    const item = await Stuff.findByIdAndDelete(req.params.itemId)
+    res.redirect('/mystuff')
+
+})
 
 
 

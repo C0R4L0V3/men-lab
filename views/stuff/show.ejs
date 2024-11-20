@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= item.name %> Page</title>
+</head>
+<body>
+    <nav>
+        <%- include('../partials/nav.ejs') %>
+        <a href="../">Home</a>
+    </nav>
+    <br>
+
+
+    <h1>Your <%= item.name %></h1>
+
+    <ul>
+        <li> $<%= item.value %>.00</li>
+        <% if (item.isOwned){%>
+            <li>You own this Item</li>
+        <%} else { %>
+            <li>You do not own this</li>
+        <% } %>
+    </ul>
+    <br>
+    <h2> Edit <%= item.name %></h2>
+
+    <br>
+
+    <form action="/mystuff/<%= item._id %>?_method=PUT" method="POST">
+
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="<%= item.name %>"/>
+
+        <label for="value">Value:</label>
+        <input type="number" name="value" value="<%= item.value %>"/>
+
+        <label for="isOwned"> Is Owned:</label>
+        <input type="checkbox" name="isOwned" 
+        <% if (item.isOwned === true){ %>
+            checked
+            <% } %>
+            />
+
+        <button type="submet">Edit <%= item.name %></button>
+
+    </form>
+    <br>
+
+    <form action="/mystuff/<%= item._id%>?_method=DELETE" method="POST">
+        <button type="submit"> Delete <%= item.name %> </button>
+    </form>
+
+    <br>
+
+
+</body>
+</html>
